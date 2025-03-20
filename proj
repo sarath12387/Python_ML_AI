@@ -1,0 +1,77 @@
+import pandas as pd
+df=pd.read_csv(r"C:\Users\pottu\Downloads\data.csv")
+df
+df.shape
+df.columns
+df.info()
+type(df)
+len(df.columns)
+df.head()
+df.tail()
+df.tail(2)
+df.head(2)
+df[::-1]
+df[:5]
+df[6:]
+df[0:200:10]
+
+df.describe()
+df.describe().transpose()
+df.describe().T
+df.columns
+df.columns=['a','b','c','d','e']
+df.head(1)
+df.columns=['CountryName', 'CountryCode', 'BirthRate', 'InternetUsers',
+       'IncomeGroup']
+df.head(1)
+df.dtypes
+df['BirthRate']
+
+df[4:8][['CountryName','BirthRate']]
+df [['CountryName','BirthRate']][4:8]
+df1 = df [['CountryName','BirthRate']]
+df1
+df2 = df[4:8]
+df2
+df.head()
+df.BirthRate * df.InternetUsers
+df.BirthRate * df.InternetUsers
+df.InternetUsers<2
+Filter = df.InternetUsers < 2 
+Filter 
+df[Filter]
+df.BirthRate>40
+Filter2 = df.BirthRate>40
+Filter2
+Filter & Filter2
+df[(df.BirthRate > 40) & (df.InternetUsers < 2)]
+df[df.IncomeGroup == 'Low income'] 
+df.IncomeGroup.unique() 
+
+import matplotlib.pyplot as plt # visulaiztion
+import seaborn as sns # distribution visualtion 
+
+%matplotlib inline
+plt.rcParams['figure.figsize'] = 8,4
+
+#import warnings
+#warnings.filterwarnings('ignore')
+df.head()
+
+vis1 = sns.histplot(df["InternetUsers"],kde=True)
+plt.show()
+
+vis1 = sns.histplot(df["InternetUsers"], bins=10,kde=True) 
+plt.show()
+vis2 = sns.boxplot(data = df, x="IncomeGroup", y='BirthRate')
+plt.show()
+vis3 = sns.lmplot(data = df,x = 'InternetUsers', y = 'BirthRate', fit_reg = False)
+plt.show()
+vis4 = sns.lmplot(data = df,x = 'InternetUsers', y = 'BirthRate')
+plt.show()
+vis5 = sns.lmplot(data = df,x = 'InternetUsers', y = 'BirthRate',
+                  fit_reg = False,hue = 'IncomeGroup')
+plt.show()
+vis5 = sns.lmplot(data = df,x = 'InternetUsers', y = 'BirthRate',
+                  fit_reg = False,hue = 'IncomeGroup')
+plt.show()
