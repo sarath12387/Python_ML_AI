@@ -1,0 +1,110 @@
+import pandas as pd
+import matplotlib as plt
+movies = pd.read_csv(r"C:\Users\pottu\Downloads\archive (1)\movie.csv", sep=',')
+print(type(movies))
+movies.head(20)
+tags = pd.read_csv(r"C:\Users\pottu\Downloads\archive (1)\tag.csv", sep=',')
+tags.head()
+ratings = pd.read_csv(r"C:\Users\pottu\Downloads\archive (1)\rating.csv", sep=',', parse_dates=['timestamp'])
+ratings.head()
+del ratings['timestamp']
+del tags['timestamp']
+row_0 = tags.iloc[0]
+type(row_0)
+print(row_0)
+row_0.index
+row_0['userId']
+'rating' in row_0
+row_0.name
+row_0 = row_0.rename('firstRow')
+row_0.name
+tags.head()
+tags.index
+tags.columns
+tags.iloc[ [0,11,500] ]
+ratings['rating'].describe()
+ratings.describe()
+ratings['rating'].mean()
+ratings.mean()
+ratings['rating'].min()
+ratings['rating'].std()
+ratings['rating'].mode()
+ratings.corr()
+filter1 = ratings['rating'] > 10
+print(filter1)
+filter1.any()
+filter2 = ratings['rating'] > 0
+filter2.all()
+movies.shape
+movies.isnull().any().any()
+ratings.shape
+ratings.isnull().any().any()
+tags.shape
+tags.isnull().any().any()
+tags=tags.dropna()
+tags.shape
+%matplotlib inline
+
+ratings.hist(column='rating', figsize=(10,5))
+plt.show()
+ratings.boxplot(column='rating', figsize=(10,5))
+plt.show()
+tags['tag'].head()
+movies[['title','genres']].head()
+ratings[-10:]
+tag_counts = tags['tag'].value_counts()
+tag_counts[-10:]
+tag_counts[:10].plot(kind='bar', figsize=(10,5))
+plt.show()
+is_highly_rated = ratings['rating'] >= 5.0
+ratings[is_highly_rated][30:50]
+is_action= movies['genres'].str.contains('Action')
+movies[is_action][5:15]
+movies[is_action].head(15)
+ratings_count = ratings[['movieId','rating']].groupby('rating').count()
+ratings_count
+average_rating = ratings[['movieId','rating']].groupby('movieId').mean()
+average_rating.head()
+movie_count = ratings[['movieId','rating']].groupby('movieId').count()
+movie_count.head()
+movie_count = ratings[['movieId','rating']].groupby('movieId').count()
+movie_count.tail()
+tags.head()
+movies.head()
+t = movies.merge(tags, on='movieId', how='inner')
+t.head()
+avg_ratings= ratings.groupby('movieId', as_index=False).mean()
+del avg_ratings['userId']
+avg_ratings.head()
+box_office = movies.merge(avg_ratings, on='movieId', how='inner')
+box_office.tail()
+is_highly_rated = box_office['rating'] >= 4.0
+box_office[is_highly_rated][-5:]
+is_Adventure = box_office['genres'].str.contains('Adventure')
+box_office[is_Adventure][:5]
+box_office[is_Adventure & is_highly_rated][-5:]
+movies.head()
+movie_genres = movies['genres'].str.split('|', expand=True)
+movie_genres[:10]
+movie_genres['isComedy'] = movies['genres'].str.contains('Comedy')
+movie_genres[:10]
+movies['year'] = movies['title'].str.extract('.*\((.*)\).*', expand=True)
+movies.tail()
+tags = pd.read_csv(r'C:\Users\pottu\Downloads\archive (1)\tag.csv', sep=',')
+tags.dtypes
+tags.head(5)
+tags['parsed_time'] = pd.to_datetime(tags['timestamp'], unit='s')
+tags['parsed_time'].dtype
+
+tags.head(2)
+greater_than_t = tags['parsed_time'] > '2015-02-01'
+
+selected_rows = tags[greater_than_t]
+
+tags.shape, selected_rows.shape
+tags.sort_values(by='parsed_time', ascending=True)[:10]
+average_rating = ratings[['movieId','rating']].groupby('movieId', as_index=False).mean()
+average_rating.tail()
+joined = movies.merge(average_rating, on='movieId', how='inner')
+joined.head()
+joined.corr()
