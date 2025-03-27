@@ -1,0 +1,174 @@
+import pandas as pd
+#%%
+emp = pd.read_excel(r'C:\Users\pottu\Downloads\Rawdata.xlsx')
+#%%
+emp
+#%%
+emp.columns
+#%%
+emp.shape
+#%%
+emp.head()
+#%%
+emp.tail()
+#%%
+emp.info()
+#%%
+emp['Domain']
+#%%
+emp.isnull()
+#%%
+emp.isnull().sum()
+#%%
+emp['Name']
+#%%
+emp['Name'] = emp['Name'].str.replace(r'\W','',regex=True)
+#%%
+emp['Name']
+#%%
+emp['Domain']
+#%%
+emp['Domain'] = emp['Domain'].str.replace(r'\W','',regex=True)
+#%%
+emp['Domain']
+#%%
+emp
+#%%
+emp['Age'] = emp['Age'].str.replace(r'\W','',regex=True)
+#%%
+emp['Age']
+#%%
+emp['Age'] = emp['Age'].str.extract('(\d+)')
+#%%
+emp['Age']
+#%%
+emp
+#%%
+emp['Location'] = emp['Location'].str.replace(r'\W','',regex=True)
+#%%
+emp['Location']
+#%%
+emp['Salary']
+#%%
+emp['Salary'] = emp['Salary'].str.replace(r'\W','',regex=True)
+#%%
+emp['Salary']
+#%%
+emp
+#%%
+emp['Exp'] = emp['Exp'].str.extract('(\d+)')
+#%%
+emp['Exp']
+#%%
+emp
+#%%
+clean_data = emp.copy()
+#%%
+clean_data
+#%%
+clean_data['Age']
+#%%
+import numpy as np 
+#%%
+clean_data['Age'] = clean_data['Age'].fillna(np.mean(pd.to_numeric(clean_data['Age'])))
+#%%
+clean_data['Age'] 
+#%%
+clean_data['Exp']
+#%%
+clean_data['Exp'] = clean_data['Exp'].fillna(np.mean(pd.to_numeric(clean_data['Exp'])))
+#%%
+clean_data['Exp']
+#%%
+clean_data
+#%%
+clean_data['Location'].isnull().sum()
+#%%
+clean_data['Location']
+#%%
+clean_data['Location'] = clean_data['Location'].fillna(clean_data['Location'].mode()[0])
+#%%
+clean_data['Location']
+#%%
+clean_data
+#%%
+clean_data.info()
+#%%
+clean_data['Age'] = clean_data['Age'].astype(int)
+#%%
+clean_data.info()
+#%%
+clean_data['Salary'] = clean_data['Salary'].astype(int)
+clean_data['Exp'] = clean_data['Exp'].astype(int)
+#%%
+clean_data.info()
+#%%
+clean_data['Name'] = clean_data['Name'].astype('category')
+clean_data['Domain'] = clean_data['Domain'].astype('category')
+clean_data['Location'] = clean_data['Location'].astype('category')
+#%%
+clean_data.info()
+#%%
+clean_data
+#%%
+clean_data.to_csv('clean_data.csv')
+#%%
+import os
+os.getcwd()
+#%%
+clean_data
+#%%
+import matplotlib.pyplot as plt # visualization
+import seaborn as sns
+#%%
+import warnings
+warnings.filterwarnings('ignore')
+#%%
+clean_data['Salary']
+#%%
+vis1 = sns.distplot(clean_data['Salary'])
+plt.show()
+#%%
+vis2 = plt.hist(clean_data['Salary'])
+plt.show()
+#%%
+vis4 = sns.lmplot(data=clean_data,x = 'Exp', y='Salary')
+plt.show()
+#%%
+vis5 = sns.lmplot(data=clean_data,x = 'Exp', y='Salary', fit_reg = False)
+plt.show()
+#%%
+clean_data[:]
+#%%
+clean_data[0:6:2]
+#%%
+clean_data[::-1]
+#%%
+clean_data.columns
+#%%
+X_iv = clean_data[['Name', 'Domain', 'Age', 'Location', 'Exp']]
+#%%
+X_iv
+#%%
+y_dv = clean_data[['Salary']]
+#%%
+y_dv
+#%%
+emp
+#%%
+clean_data
+#%%
+X_iv
+#%%
+y_dv
+#%%
+clean_data
+#%%
+imputation = pd.get_dummies(clean_data)
+#%%
+imputation 
+#%%
+clean_data
+#%%
+imputation
+#%%
