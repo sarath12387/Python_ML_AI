@@ -1,0 +1,237 @@
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+#%% md
+**Importing pandas and Seaborn module**
+#%%
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+#plt.style.use('fivethirtyeight')  
+import warnings
+warnings.filterwarnings('ignore')  #this will ignore the warnings.it wont display warnings in notebook
+#%% md
+**Importing Iris data set**
+#%%
+iris=pd.read_csv(r'C:\Users\pottu\Downloads\Iris.csv')
+#%%
+iris
+#%% md
+**Displaying data **
+#%%
+iris.head()
+#%%
+iris.drop('Id',axis=1,inplace=True)
+#%%
+iris.head()
+#%% md
+**Checking if there are any missing values **
+#%%
+iris.info()
+#%%
+iris['Species'].value_counts()
+#%% md
+This data set has three varities of Iris plant.
+#%% md
+**2.Bar Plot :**
+Here the frequency of the observation is plotted.In this case we are plotting the frequency of the three species in the Iris Dataset
+#%%
+sns.countplot('Species',data=iris)
+plt.show()
+#%% md
+We can see that there are 50 samples each of all the Iris Species in the data set.
+#%% md
+**4. Joint plot: **
+Jointplot is seaborn library specific and can be used to quickly visualize and analyze the relationship between two variables and describe their individual distributions on the same plot.
+#%%
+iris.head()
+#%%
+fig=sns.jointplot(x='SepalLengthCm',y='SepalWidthCm',data=iris)
+#%%
+sns.jointplot("SepalLengthCm", "SepalWidthCm", data=iris, kind="reg")
+#%%
+fig=sns.jointplot(x='SepalLengthCm',y='SepalWidthCm',kind='hex',data=iris)
+#%% md
+**5. FacetGrid Plot**
+#%%
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+sns.FacetGrid(iris,hue='Species',size=5)\
+.map(plt.scatter,'SepalLengthCm','SepalWidthCm')\
+.add_legend()
+#%% md
+**6. Boxplot or Whisker plot**
+Box plot was was first introduced in year 1969 by Mathematician John Tukey.Box plot give a statical summary of the features being plotted.Top line represent the max value,top edge of box is third Quartile, middle edge represents the median,bottom edge represents the first quartile value.The bottom most line respresent the minimum value of the feature.The height of the box is called as Interquartile range.The black dots on the plot represent the outlier values in the data.
+#%%
+iris.head()
+#%%
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+fig=sns.boxplot(x='Species',y='PetalLengthCm',data=iris,order=['Iris-virginica','Iris-versicolor','Iris-setosa'],linewidth=2.5,orient='v',dodge=False)
+#%%
+#iris.drop("Id", axis=1).boxplot(by="Species", figsize=(12, 6))
+iris.boxplot(by="Species", figsize=(12, 6))
+#%% md
+**7. Strip plot**
+#%%
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+fig=sns.stripplot(x='Species',y='SepalLengthCm',data=iris,jitter=True,edgecolor='gray',size=8,palette='winter',orient='v')
+#%% md
+**8. Combining Box and Strip Plots**
+#%%
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+fig=sns.boxplot(x='Species',y='SepalLengthCm',data=iris)
+fig=sns.stripplot(x='Species',y='SepalLengthCm',data=iris,jitter=True,edgecolor='gray')
+#%%
+ax= sns.boxplot(x="Species", y="PetalLengthCm", data=iris)
+ax= sns.stripplot(x="Species", y="PetalLengthCm", data=iris, jitter=True, edgecolor="gray")
+
+boxtwo = ax.artists[2]
+boxtwo.set_facecolor('yellow')
+boxtwo.set_edgecolor('black')
+boxthree=ax.artists[1]
+boxthree.set_facecolor('red')
+boxthree.set_edgecolor('black')
+boxthree=ax.artists[0]
+boxthree.set_facecolor('green')
+boxthree.set_edgecolor('black')
+
+plt.show()
+#%% md
+**9. Violin Plot**
+It is used to visualize the distribution of data and its probability distribution.This chart is a combination of a Box Plot and a Density Plot that is rotated and placed on each side, to show the distribution shape of the data. The thick black bar in the centre represents the interquartile range, the thin black line extended from it represents the 95% confidence intervals, and the white dot is the median.Box Plots are limited in their display of the data, as their visual simplicity tends to hide significant details about how values in the data are distributed
+#%%
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+fig=sns.violinplot(x='Species',y='SepalLengthCm',data=iris)
+#%%
+plt.figure(figsize=(15,10))
+plt.subplot(2,2,1)
+sns.violinplot(x='Species',y='PetalLengthCm',data=iris)
+plt.subplot(2,2,2)
+sns.violinplot(x='Species',y='PetalWidthCm',data=iris)
+plt.subplot(2,2,3)
+sns.violinplot(x='Species',y='SepalLengthCm',data=iris)
+plt.subplot(2,2,4)
+sns.violinplot(x='Species',y='SepalWidthCm',data=iris)
+#%% md
+**10. Pair Plot:**
+A “pairs plot” is also known as a scatterplot, in which one variable in the same data row is matched with another variable's value, like this: Pairs plots are just elaborations on this, showing all variables paired with all the other variables.
+#%%
+sns.pairplot(data=iris,kind='scatter')
+#%%
+sns.pairplot(iris,hue='Species');
+#%% md
+**11. Heat map**
+Heat map is used to find out the correlation between different features in the dataset.High positive or negative value shows that the features have high correlation.This helps us to select the parmeters for machine learning.
+#%%
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+fig=sns.heatmap(iris.corr(),annot=True,cmap='cubehelix',linewidths=1,linecolor='k',square=True,mask=False, vmin=-1, vmax=1,cbar_kws={"orientation": "vertical"},cbar=True)
+#%% md
+**12. Distribution plot:**
+The distribution plot is suitable for comparing range and distribution for groups of numerical data. Data is plotted as value points along an axis. You can choose to display only the value points to see the distribution of values, a bounding box to see the range of values, or a combination of both as shown here.The distribution plot is not relevant for detailed analysis of the data as it deals with a summary of the data distribution.
+#%%
+iris.hist(edgecolor='black', linewidth=1.2)
+fig=plt.gcf()
+fig.set_size_inches(12,6)
+#%% md
+**13. Swarm plot**
+It looks a bit like a friendly swarm of bees buzzing about their hive. More importantly, each data point is clearly visible and no data are obscured by overplotting.A beeswarm plot improves upon the random jittering approach to move data points the minimum distance away from one another to avoid overlays. The result is a plot where you can see each distinct data point, like shown in below plot
+#%%
+sns.set(style="darkgrid")
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+fig = sns.swarmplot(x="Species", y="PetalLengthCm", data=iris)
+#%%
+sns.set(style="whitegrid")
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+ax = sns.violinplot(x="Species", y="PetalLengthCm", data=iris, inner=None)
+ax = sns.swarmplot(x="Species", y="PetalLengthCm", data=iris,color="white", edgecolor="black")
+#%% md
+**17. LM PLot**
+#%%
+fig=sns.lmplot(x="PetalLengthCm", y="PetalWidthCm",data=iris)
+#%% md
+**18. FacetGrid**
+#%%
+sns.FacetGrid(iris, hue="Species", size=6) \
+   .map(sns.kdeplot, "PetalLengthCm") \
+   .add_legend()
+plt.ioff() 
+#%% md
+** 22. Factor Plot **
+#%%
+#f,ax=plt.subplots(1,2,figsize=(18,8))
+sns.factorplot('Species','SepalLengthCm',data=iris)
+plt.ioff()
+plt.show()
+#sns.factorplot('Species','SepalLengthCm',data=iris,ax=ax[0][0])
+#sns.factorplot('Species','SepalWidthCm',data=iris,ax=ax[0][1])
+#sns.factorplot('Species','PetalLengthCm',data=iris,ax=ax[1][0])
+#sns.factorplot('Species','PetalWidthCm',data=iris,ax=ax[1][1])
+#%% md
+** 23. Boxen Plot**
+#%%
+fig=plt.gcf()
+fig.set_size_inches(10,7)
+fig=sns.boxenplot(x='Species',y='SepalLengthCm',data=iris)
+#%% md
+**28.KDE Plot **
+#%%
+# Create a kde plot of sepal_length versus sepal width for setosa species of flower.
+sub=iris[iris['Species']=='Iris-setosa']
+sns.kdeplot(data=sub[['SepalLengthCm','SepalWidthCm']],cmap="plasma", shade=True, shade_lowest=False)
+plt.title('Iris-setosa')
+plt.xlabel('Sepal Length Cm')
+plt.ylabel('Sepal Width Cm')
+#%% md
+**30.Dashboard**
+#%%
+sns.set_style('darkgrid')
+f,axes=plt.subplots(2,2,figsize=(15,15))
+
+k1=sns.boxplot(x="Species", y="PetalLengthCm", data=iris,ax=axes[0,0])
+k2=sns.violinplot(x='Species',y='PetalLengthCm',data=iris,ax=axes[0,1])
+k3=sns.stripplot(x='Species',y='SepalLengthCm',data=iris,jitter=True,edgecolor='gray',size=8,palette='winter',orient='v',ax=axes[1,0])
+#axes[1,1].hist(iris.hist,bin=10)
+axes[1,1].hist(iris.PetalLengthCm,bins=100)
+#k2.set(xlim=(-1,0.8))
+plt.show()
+#%% md
+In the dashboard we have shown how to create multiple plots to foam a dashboard using Python.In this plot we have demonstrated how to plot Seaborn and Matplotlib plots on the same Dashboard.
+#%% md
+**31.Stacked Histogram**
+#%%
+iris['Species'] = iris['Species'].astype('category')
+#iris.head()
+#%%
+list1=list()
+mylabels=list()
+for gen in iris.Species.cat.categories:
+    list1.append(iris[iris.Species==gen].SepalLengthCm)
+    mylabels.append(gen)
+    
+h=plt.hist(list1,bins=30,stacked=True,rwidth=1,label=mylabels)
+plt.legend()
+plt.show()
+#%% md
+With Stacked Histogram we can see the distribution of Sepal Length of Different Species together.This shows us the range of Sepan Length for the three different Species of Iris Flower.
+#%% md
+**32.Area Plot:**
+Area Plot gives us a visual representation of Various dimensions of Iris flower and their range in dataset.
+#%%
+#iris['SepalLengthCm'] = iris['SepalLengthCm'].astype('category')
+#iris.head()
+#iris.plot.area(y='SepalLengthCm',alpha=0.4,figsize=(12, 6));
+iris.plot.area(y=['SepalLengthCm','SepalWidthCm','PetalLengthCm','PetalWidthCm'],alpha=0.4,figsize=(12, 6));
+#%% md
+**33.Distplot:**
+It helps us to look at the distribution of a single variable.Kde shows the density of the distribution
+
+#%%
+sns.distplot(iris['SepalLengthCm'],kde=True,bins=20);
+#%%
