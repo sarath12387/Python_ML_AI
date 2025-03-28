@@ -5,7 +5,7 @@ import os
 #%%
 os.getcwd() # if you want to change the working directory
 #%%
-movies = pd.read_csv(r"C:\Users\kdata\Desktop\NARESH TECHNOLGY PVT LTD\1. REGULAR CLASSES\2.May'21\14th may\MOVIE RATINGS _ ADVANCE VISUALIZATION _ EDA 1\Movie-Rating.csv")
+movies = pd.read_csv(r"C:\Users\pottu\Downloads\Movie-Rating.csv")
 #%%
 movies
 #%%
